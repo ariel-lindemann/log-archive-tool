@@ -1,0 +1,20 @@
+#!/bin/bash
+HELP_MSG="Usage: $0 <log directory> <destination directory>"
+
+if [ "$1" == "--help" ]; then
+    echo "$HELP_MSG"
+    exit 0
+fi
+
+LOG_DIR="{$1:-/var/log}"
+# Destination dir defaults to working dir if not specified
+DEST_DIR="${2:-$(pwd)}"
+
+mkdir -pv "$DEST_DIR"
+
+DATE=$(date +%Y%m%d_%H%M%S)
+ARCHIVE_NAME="logs_archive_$DATE.tar.gz"
+
+echo "Archiving logs to $DEST_DIR/$ARCHIVE_NAME"
+
+tar -czf "$DEST_DIR/$ARCHIVE_NAME" "$LOG_DIR"
